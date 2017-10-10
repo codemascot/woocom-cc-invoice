@@ -8,7 +8,7 @@ class Initialize {
 	}
 	
 	public function init() {
-		add_filter( 'woocommerce_email_classes', 'order_email' );
+		add_filter( 'woocommerce_email_classes', [ $this, 'instantiate_email' ] );
 	}
 	
 	/**
@@ -19,7 +19,7 @@ class Initialize {
 	 *
 	 * @return mixed
 	 */
-	public function order_email( $email_classes ) {
+	public function instantiate_email( $email_classes ) {
 		// add the email class to the list of email
 		// classes that WooCommerce loads
 		$email_classes['WooCom_CC_Invoice'] = new Email();
