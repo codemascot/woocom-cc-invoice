@@ -1,7 +1,7 @@
-.wci_wrap #wci_form_options label,
-.wci_wrap #wci_form_options input,
-.wci_wrap #wci_message_options label,
-.wci_wrap #wci_message_options input {
+.wci_wrap #wci_form_opts label,
+.wci_wrap #wci_form_opts input,
+.wci_wrap #wci_message_opts label,
+.wci_wrap #wci_message_opts input {
 	float: left;
 	clear: left;
 }

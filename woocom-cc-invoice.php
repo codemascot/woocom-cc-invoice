@@ -36,7 +36,7 @@ register_activation_hook( __FILE__, __NAMESPACE__ . '\\deactivate' );
 /**
  * Initialize all the plugin things.
  *
- * @return mixed|void
+ * @return mixed
  * @throws \Throwable
  */
 function initialize() {
@@ -57,8 +57,9 @@ function initialize() {
 			'woocom-cc-invoice_core_modules',
 			[
 				'AssetsEnqueue' => ( new Assets\AssetsEnqueue() )->init(),
-				'EmailInit' => ( new Email\Initialize() )->init(),
-				'Admin' => ( new Admin\Admin() )->init(),
+				'EmailInit'     => ( new Email\InitEmail() )->init(),
+				'Admin'         => ( new Admin\Admin() )->init(),
+				'Initialize'    => ( new Initialize\Initialize() )->init(),
 			]
 		);
 

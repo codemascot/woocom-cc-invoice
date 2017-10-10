@@ -2,7 +2,7 @@
 
 namespace TheDramatist\WooComCCInvoice\Email;
 
-class Initialize {
+class InitEmail {
 	public function __construct() {
 	
 	}

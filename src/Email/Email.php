@@ -240,7 +240,7 @@ class Email extends WC_Email {
 				),
 				'default'     => 'html',
 				'class'       => 'email_type',
-				'options'     => [
+				'opts'     => [
 					'plain'     => __( 'Plain text', 'woocom-cc-invoice' ),
 					'html'      => __( 'HTML', 'woocom-cc-invoice' ),
 					'multipart' => __( 'Multipart', 'woocom-cc-invoice' ),

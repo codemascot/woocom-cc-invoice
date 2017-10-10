@@ -8,12 +8,14 @@ namespace TheDramatist\WooComCCInvoice\Assets;
  * @package TheDramatist\WooComCCInvoice\Assets
  */
 class AssetsEnqueue {
+	
+	public $plugin_dir = '';
 
 	/**
 	 * AssetsEnqueue constructor.
 	 */
 	public function __construct() {
-
+		$this->plugin_dir = plugin_dir_url( __FILE__ );
 	}
 
 	/**
@@ -32,7 +34,7 @@ class AssetsEnqueue {
 	public function styles() {
 		wp_enqueue_style(
 			'woocom-cc-invoice-css',
-			plugin_dir_url( __FILE__ ) . '../../assets/css/woocom-cc-invoice.css',
+			$this->plugin_dir . '../../assets/css/woocom-cc-invoice.css',
 			null,
 			'1.0.0',
 			'all'
@@ -47,14 +49,20 @@ class AssetsEnqueue {
 		// Registering the script.
 		wp_register_script(
 			'woocom-cc-invoice-js',
-			plugin_dir_url( __FILE__ ) . '../../assets/js/woocom-cc-invoice.js',
+			$this->plugin_dir . '../../assets/js/woocom-cc-invoice.js',
 			[ 'jquery' ],
 			'1.0.0',
 			true
 		);
 		// Local JS data
+		$opts = get_option( 'wci_opts' );
 		$local_js_data = array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'ajax_url'          => admin_url( 'admin-ajax.php' ),
+			'success_message'   => $opts['success_message'],
+			'email_message'     => $opts['email_message'],
+			'order_message'     => $opts['order_message'],
+			'account_message'   => $opts['account_message'],
+			'default_message'   => $opts['default_message'],
 		);
 		// Pass data to myscript.js on page load
 		wp_localize_script(

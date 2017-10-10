@@ -34,7 +34,7 @@
 			    $(".order_message").remove();
 
 			    var data = {
-				    action: 'wci_share_order',
+				    action: 'wci_invoice_cc',
 				    dataType: 'json',
 				    email: email,
 				    order: order
