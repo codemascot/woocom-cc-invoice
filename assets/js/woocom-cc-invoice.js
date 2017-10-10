@@ -34,7 +34,7 @@
 			    $(".order_message").remove();
 
 			    var data = {
-				    action: 'wso_share_order',
+				    action: 'wci_share_order',
 				    dataType: 'json',
 				    email: email,
 				    order: order
