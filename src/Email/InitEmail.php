@@ -14,6 +14,7 @@ class InitEmail {
 	}
 	
 	public function init() {
+		
 		add_filter(
 			'woocommerce_email_classes',
 			[ $this, 'instantiate_email' ]

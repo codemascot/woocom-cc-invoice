@@ -15,6 +15,7 @@ class AssetsEnqueue {
 	 * AssetsEnqueue constructor.
 	 */
 	public function __construct() {
+		
 		$this->plugin_dir = plugin_dir_url( __FILE__ );
 	}
 	
@@ -24,6 +25,7 @@ class AssetsEnqueue {
 	 * @return void
 	 */
 	public function init() {
+		
 		add_action( 'wp_enqueue_scripts', [ $this, 'styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
 	}
@@ -34,6 +36,7 @@ class AssetsEnqueue {
 	 * @return void
 	 */
 	public function styles() {
+		
 		wp_enqueue_style(
 			'woocom-cc-invoice-css',
 			$this->plugin_dir . '../../assets/css/woocom-cc-invoice.css',
@@ -62,11 +65,11 @@ class AssetsEnqueue {
 		$opts          = get_option( 'wci_opts' );
 		$local_js_data = [
 			'ajax_url'        => admin_url( 'admin-ajax.php' ),
-			'success_message' => $opts['success_message'],
-			'email_message'   => $opts['email_message'],
-			'order_message'   => $opts['order_message'],
-			'account_message' => $opts['account_message'],
-			'default_message' => $opts['default_message'],
+			'success_message' => $opts[ 'success_message' ],
+			'email_message'   => $opts[ 'email_message' ],
+			'order_message'   => $opts[ 'order_message' ],
+			'account_message' => $opts[ 'account_message' ],
+			'default_message' => $opts[ 'default_message' ],
 		];
 		// Pass data to myscript.js on page load
 		wp_localize_script(

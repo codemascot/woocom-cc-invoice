@@ -33,6 +33,7 @@ class Admin {
 	 * @return void
 	 */
 	public function activation_hook() {
+		
 		$opts = get_option( 'wci_opts' );
 		if ( false !== $opts ) {
 			return;
@@ -75,6 +76,7 @@ class Admin {
 	}
 	
 	public function admin_menu() {
+		
 		add_submenu_page(
 			'woocommerce',
 			__( 'Invoice Sharing', 'woocom-cc-invoice' ),
@@ -92,6 +94,7 @@ class Admin {
 	 * @return void Prints HTML form
 	 */
 	public function admin_menu_render() {
+		
 		?>
 		<div class="wrap wci_wrap">
 			<h2>
@@ -154,6 +157,7 @@ class Admin {
 	
 	/**
 	 * Settings help text
+	 *
 	 * @return void
 	 */
 	public function settings_help_text() {
@@ -209,7 +213,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[form_title]"
-				value="<?php echo esc_attr( $opts['form_title'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'form_title' ] ); ?>"
 			/>
 
 			<label for="wci_opts[help_message]">
@@ -223,7 +227,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[help_message]"
-				value="<?php echo esc_attr( $opts['help_message'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'help_message' ] ); ?>"
 			/>
 
 			<label for="wci_opts[button_text]">
@@ -233,12 +237,12 @@ class Admin {
 					'woocom-cc-invoice'
 				)
 				?>
-				
+
 			</label>
 			<input
 				type="text"
 				name="wci_opts[button_text]"
-				value="<?php echo esc_attr( $opts['button_text'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'button_text' ] ); ?>"
 			/>
 
 			<label for="wci_opts[input_placeholder]">
@@ -252,7 +256,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[input_placeholder]"
-				value="<?php echo esc_attr( $opts['input_placeholder'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'input_placeholder' ] ); ?>"
 			/>
 		</div>
 		<?php
@@ -266,6 +270,7 @@ class Admin {
 	 * @return void
 	 */
 	public function message_input() {
+		
 		$opts = get_option( 'wci_opts' );
 		if ( false === $opts ) {
 			$opts = [];
@@ -292,7 +297,7 @@ class Admin {
 				'woocom-cc-invoice'
 			),
 		];
-		$opts = wp_parse_args( $opts, $defaults );
+		$opts     = wp_parse_args( $opts, $defaults );
 		?>
 		<div id="wci_message_opts">
 
@@ -307,7 +312,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[success_message]"
-				value="<?php echo esc_attr( $opts['success_message'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'success_message' ] ); ?>"
 			/>
 
 			<label for="wci_opts[email_message]">
@@ -321,7 +326,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[email_message]"
-				value="<?php echo esc_attr( $opts['email_message'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'email_message' ] ); ?>"
 			/>
 
 			<label for="wci_opts[order_message]">
@@ -335,7 +340,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[order_message]"
-				value="<?php echo esc_attr( $opts['order_message'] ); ?>" />
+				value="<?php echo esc_attr( $opts[ 'order_message' ] ); ?>" />
 
 			<label for="wci_opts[account_message]">
 				<?php
@@ -348,7 +353,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[account_message]"
-				value="<?php echo esc_attr( $opts['account_message'] ); ?>"
+				value="<?php echo esc_attr( $opts[ 'account_message' ] ); ?>"
 			/>
 			<label for="wci_opts[default_message]">
 				<?php
@@ -361,7 +366,7 @@ class Admin {
 			<input
 				type="text"
 				name="wci_opts[default_message]"
-				value="<?php echo esc_attr( $opts['default_message'] ); ?>" />
+				value="<?php echo esc_attr( $opts[ 'default_message' ] ); ?>" />
 		</div>
 		<?php
 	}
@@ -373,6 +378,7 @@ class Admin {
 	*	@return void Prints html form
 	*/
 	public function page_input() {
+		
 		$opts = get_option( 'wci_opts' );
 		if ( false === $opts ) {
 			$opts = [];
@@ -382,7 +388,7 @@ class Admin {
 			'order_received_top' => 'on',
 			'view_order'         => 'on',
 		];
-		$opts = wp_parse_args( $opts, $defaults );
+		$opts     = wp_parse_args( $opts, $defaults );
 		?>
 
 		<div id="wci_page_opts">
@@ -392,7 +398,7 @@ class Admin {
 					type="checkbox"
 					name="wci_opts[order_received]"
 					<?php
-					echo 'on' === $opts['order_received'] ? 'checked' : ''
+					echo 'on' === $opts[ 'order_received' ] ? 'checked' : ''
 					?>
 				/>
 				<label for="wci_opts[order_received]">
@@ -410,7 +416,7 @@ class Admin {
 					type="checkbox"
 					name="wci_opts[order_received_top]"
 					<?php
-					echo 'on' === $opts['order_received_top'] ? 'checked' : ''
+					echo 'on' === $opts[ 'order_received_top' ] ? 'checked' : ''
 					?>
 				/>
 				<label for="wci_opts[order_received_top]">
@@ -420,7 +426,7 @@ class Admin {
 						'woocom-cc-invoice'
 					);
 					?>
-					
+
 				</label>
 			</div>
 
@@ -429,7 +435,7 @@ class Admin {
 					type="checkbox"
 					name="wci_opts[view_order]"
 					<?php
-					echo 'on' === $opts['view_order'] ? 'checked' : ''
+					echo 'on' === $opts[ 'view_order' ] ? 'checked' : ''
 					?>
 				/>
 				<label for="wci_opts[view_order]">
@@ -445,7 +451,7 @@ class Admin {
 		
 		<?php
 	}
-
+	
 	/**
 	 * Validation Settings
 	 *
@@ -454,24 +460,26 @@ class Admin {
 	 * @return mixed
 	 */
 	public function validate_opts( $input ) {
-		$input['form_title']        = strip_tags( $input['form_title'] );
-		$input['help_message']      = strip_tags( $input['help_message'] );
-		$input['button_text']       = strip_tags( $input['button_text'] );
-		$input['input_placeholder'] = strip_tags( $input['input_placeholder'] );
-		$input['success_message']   = strip_tags( $input['success_message'] );
-		$input['email_message']     = strip_tags( $input['email_message'] );
-		$input['order_message']     = strip_tags( $input['order_message'] );
-		$input['account_message']   = strip_tags( $input['account_message'] );
-		$input['default_message']   = strip_tags( $input['default_message'] );
-		if ( ! isset( $input['order_received'] ) ) {
-			$input['order_received'] = '';
+		
+		$input[ 'form_title' ]        = strip_tags( $input[ 'form_title' ] );
+		$input[ 'help_message' ]      = strip_tags( $input[ 'help_message' ] );
+		$input[ 'button_text' ]       = strip_tags( $input[ 'button_text' ] );
+		$input[ 'input_placeholder' ] = strip_tags( $input[ 'input_placeholder' ] );
+		$input[ 'success_message' ]   = strip_tags( $input[ 'success_message' ] );
+		$input[ 'email_message' ]     = strip_tags( $input[ 'email_message' ] );
+		$input[ 'order_message' ]     = strip_tags( $input[ 'order_message' ] );
+		$input[ 'account_message' ]   = strip_tags( $input[ 'account_message' ] );
+		$input[ 'default_message' ]   = strip_tags( $input[ 'default_message' ] );
+		if ( ! isset( $input[ 'order_received' ] ) ) {
+			$input[ 'order_received' ] = '';
 		}
-		if ( ! isset( $input['order_received_top'] ) ) {
-			$input['order_received_top'] = '';
+		if ( ! isset( $input[ 'order_received_top' ] ) ) {
+			$input[ 'order_received_top' ] = '';
 		}
-		if ( ! isset( $input['view_order'] ) ) {
-			$input['view_order'] = '';
+		if ( ! isset( $input[ 'view_order' ] ) ) {
+			$input[ 'view_order' ] = '';
 		}
+		
 		return $input;
 	}
 }
