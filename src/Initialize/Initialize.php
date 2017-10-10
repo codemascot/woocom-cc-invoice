@@ -2,6 +2,11 @@
 
 namespace TheDramatist\WooComCCInvoice\Initialize;
 
+/**
+ * Class Initialize
+ *
+ * @package TheDramatist\WooComCCInvoice\Initialize
+ */
 class Initialize {
 	
 	public function __construct() {
@@ -30,11 +35,47 @@ class Initialize {
 		
 		$opts = get_option( 'wci_opts' );
 		if (
-			'on' === $opts[ 'order_received' ] and
-			'on' === $opts[ 'order_received_top' ]
+			'on' === $opts['order_received' ] and
+			'on' === $opts['order_received_top' ]
 		) {
 			$this->input_form();
 		}
+	}
+	
+	/**
+	 * Print WooCom CC Invoice Input Box
+	 *
+	 * @return void Prints WooCom CC Invoice form
+	 */
+	public function input_form() {
+		
+		$opts = get_option( 'wci_opts' );
+		?>
+		<div class="share_order_container">
+			<h2>
+				<?php echo esc_html( $opts['form_title'] ); ?>
+			</h2>
+			<label>
+				<?php echo esc_html( $opts['help_message'] ); ?>
+			</label>
+			<input
+				type="email"
+				name="order_share_email"
+				id="order_share_email"
+				placeholder="
+				<?php
+					echo esc_attr( $opts['input_placeholder'] )
+				?>
+				"
+			/>
+			<input
+				type="submit"
+				value="<?php echo esc_attr( $opts['button_text'] ); ?>"
+				id="submit_order_share"
+				class="button button-primary button-large"
+			/>
+		</div>
+		<?php
 	}
 	
 	/**
@@ -49,74 +90,43 @@ class Initialize {
 		// Display on View Order Page
 		if (
 			is_page( 'my-account' ) and
-			'on' === $opts[ 'view_order' ]
+			'on' === $opts['view_order']
 		) {
 			$this->input_form();
 			// Display on bottom of Order Received Page
 		} elseif (
 			is_page( 'checkout' )
-			and $opts[ 'order_received' ] === 'on'
-			    and $opts[ 'order_received_top' ] !== 'on'
+			and 'on' === $opts['order_received']
+			and 'on' !== $opts['order_received_top']
 		) {
 			$this->input_form();
 		}
 	}
 	
 	/**
-	 * Print Share Order Input Box
-	 *
-	 * @return void Prints Share Order form
-	 */
-	public function input_form() {
-		
-		$opts = get_option( 'wci_opts' );
-		?>
-		<div class="share_order_container">
-			<h2>
-				<?php echo $opts[ 'form_title' ]; ?>
-			</h2>
-			<label>
-				<?php echo $opts[ 'help_message' ]; ?>
-			</label>
-			<input
-				type="email"
-				name="order_share_email"
-				id="order_share_email"
-				placeholder="<?php echo $opts[ 'input_placeholder' ] ?>"
-			/>
-			<input
-				type="submit"
-				value="<?php echo $opts[ 'button_text' ]; ?>"
-				id="submit_order_share"
-				class="button button-primary button-large"
-			/>
-		</div>
-		<?php
-	}
-	
-	/**
-	 * Share Order Ajax Handler
+	 * WooCom CC Invoice Ajax Handler
 	 *
 	 * @return array results
 	 *
 	 */
 	public function cc_invoive() {
+		
 		global $woocommerce;
 		// Nonce needed.
-		$email = stripslashes( $_REQUEST[ 'email' ] );
+		$email = stripslashes( $_REQUEST['email'] );
 		$order = intval( stripslashes( $_REQUEST['order'] ) );
 		$user  = wp_get_current_user();
 		
 		// Get order to validate against
 		if ( is_int( $order ) ) {
-			$order_result = new WC_Order( $order );
+			$order_result = new \WC_Order( $order );
 		}
 		
 		// Validate the Email
 		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
 			$result['type'] = 'invalid_email';
 			// Validate Order Exists
-		} elseif ( $order_result->id != $order ) {
+		} elseif ( $order_result->ID !== $order ) {
 			$result['type'] = 'invalid_order';
 			// Validate This is the Current User's Account
 		} elseif (
@@ -125,13 +135,13 @@ class Initialize {
 			$result['type'] = 'invalid_account';
 			// If everything checks out, send the email
 		} else {
-			$mailer  = new WC_Emails();
+			$mailer  = new \WC_Emails();
 			$invoice = $mailer->emails['WooCom_CC_Invoice'];
 			$invoice->trigger( $order, $email );
 			$result['type'] = 'success';
 		}
 		// Send results back
-		$result_json = json_encode( $result );
+		$result_json = wp_json_encode( $result );
 		echo esc_html( $result_json );
 		// reset jQuery
 		wp_reset_query();
@@ -139,15 +149,16 @@ class Initialize {
 	}
 	
 	/**
-	 * Share Order Ajax Handler - NoPriv
+	 * WooCom CC Invoice Ajax Handler - NoPriv
 	 *
 	 * @return array
 	 *
 	 */
 	function cc_invoive_nopriv() {
+		
 		$result['type'] = 'invalid_account';
 		// Send results back
-		$result_json = json_encode( $result );
+		$result_json = wp_json_encode( $result );
 		echo esc_html( $result_json );
 		// reset jQuery
 		wp_reset_query();

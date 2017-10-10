@@ -2,6 +2,11 @@
 
 namespace TheDramatist\WooComCCInvoice\Email;
 
+/**
+ * Class Email
+ *
+ * @package TheDramatist\WooComCCInvoice\Email
+ */
 class Email extends WC_Email {
 	
 	public $find;
@@ -11,6 +16,7 @@ class Email extends WC_Email {
 	 * Constructor
 	 */
 	public function __construct() {
+		
 		$this->id          = 'customer_invoice';
 		$this->title       = __( 'Customer invoice', 'woocom-cc-invoice' );
 		$this->description = __(
@@ -59,9 +65,14 @@ class Email extends WC_Email {
 	 * trigger function.
 	 *
 	 * @access public
+	 *
+	 * @param $order
+	 * @param $email
+	 *
 	 * @return void
 	 */
 	public function trigger( $order, $email ) {
+		
 		if ( ! is_object( $order ) ) {
 			$order = new WC_Order( absint( $order ) );
 		}
@@ -100,6 +111,7 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_subject() {
+		
 		if (
 			'processing' === $this->object->status
 			|| 'completed' === $this->object->status
@@ -117,12 +129,32 @@ class Email extends WC_Email {
 	}
 	
 	/**
+	 * get_content_html function.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_content_html() {
+		
+		ob_start();
+		wc_get_template( $this->template_html, [
+			'order'         => $this->object,
+			'email_heading' => $this->get_heading(),
+			'sent_to_admin' => false,
+			'plain_text'    => false,
+		] );
+		
+		return ob_get_clean();
+	}
+	
+	/**
 	 * get_heading function.
 	 *
 	 * @access public
 	 * @return string
 	 */
 	public function get_heading() {
+		
 		if (
 			'processing' === $this->object->status
 			|| 'completed' == $this->object->status
@@ -136,27 +168,9 @@ class Email extends WC_Email {
 			return apply_filters(
 				'woocommerce_email_heading_customer_invoice',
 				$this->format_string( $this->heading ),
-			    $this->object
+				$this->object
 			);
 		}
-	}
-	
-	/**
-	 * get_content_html function.
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function get_content_html() {
-		ob_start();
-		wc_get_template( $this->template_html, [
-			'order'         => $this->object,
-			'email_heading' => $this->get_heading(),
-			'sent_to_admin' => false,
-			'plain_text'    => false,
-		] );
-		
-		return ob_get_clean();
 	}
 	
 	/**
@@ -166,6 +180,7 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_content_plain() {
+		
 		ob_start();
 		wc_get_template( $this->template_plain, [
 			'order'         => $this->object,
@@ -184,6 +199,7 @@ class Email extends WC_Email {
 	 * @return void
 	 */
 	public function init_form_fields() {
+		
 		$this->form_fields = [
 			'subject'      => [
 				'title'       => __( 'Email subject', 'woocom-cc-invoice' ),
@@ -213,7 +229,7 @@ class Email extends WC_Email {
 				'type'        => 'text',
 				'description' => sprintf(
 					__( 'Defaults to <code>%s</code>', 'woocom-cc-invoice' ),
-				    $this->subject_paid
+					$this->subject_paid
 				),
 				'placeholder' => '',
 				'default'     => '',
@@ -240,7 +256,7 @@ class Email extends WC_Email {
 				),
 				'default'     => 'html',
 				'class'       => 'email_type',
-				'opts'     => [
+				'opts'        => [
 					'plain'     => __( 'Plain text', 'woocom-cc-invoice' ),
 					'html'      => __( 'HTML', 'woocom-cc-invoice' ),
 					'multipart' => __( 'Multipart', 'woocom-cc-invoice' ),

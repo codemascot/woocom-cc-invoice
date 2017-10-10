@@ -2,6 +2,11 @@
 
 namespace TheDramatist\WooComCCInvoice\Admin;
 
+/**
+ * Class Admin
+ *
+ * @package TheDramatist\WooComCCInvoice\Admin
+ */
 class Admin {
 	
 	public function __construct() {
@@ -24,8 +29,10 @@ class Admin {
 		);
 	}
 	
+	/**
+	 * @return void
+	 */
 	public function activation_hook() {
-		
 		$opts = get_option( 'wci_opts' );
 		if ( false !== $opts ) {
 			return;
@@ -68,7 +75,6 @@ class Admin {
 	}
 	
 	public function admin_menu() {
-		
 		add_submenu_page(
 			'woocommerce',
 			__( 'Invoice Sharing', 'woocom-cc-invoice' ),
@@ -85,9 +91,17 @@ class Admin {
 	 *
 	 * @return void Prints HTML form
 	 */
-	public function admin_menu_render() { ?>
+	public function admin_menu_render() {
+		?>
 		<div class="wrap wci_wrap">
-			<h2>Invoice Sharing Settings</h2>
+			<h2>
+				<?php
+				esc_html_e(
+					'Invoice Sharing Settings',
+					'woocom-cc-invoice'
+				)
+				?>
+			</h2>
 			<form action="opts.php" method="post">
 				<?php settings_fields( 'wci_opts' ); ?>
 				<?php do_settings_sections( 'wci_opts_page' ); ?>
@@ -97,22 +111,22 @@ class Admin {
 		<?php
 	}
 	
-	/*
-	*	Register WSO Admin Menu Settings
-	*
-	*	@return void
-	*/
+	/**
+	 * Register WooCom CC Invoice admin menu Settings
+	 *
+	 * @return void
+	 */
 	public function admin_init() {
 		
 		register_setting(
 			'wci_opts',
 			'wci_opts',
-			'wci_validate_opts'
+			[ $this, 'validate_opts' ]
 		);
 		add_settings_section(
 			'wci_settings',
 			'',
-			'wci_settings_help_text',
+			[ $this, 'settings_help_text' ],
 			'wci_opts_page'
 		);
 		add_settings_field(
@@ -125,111 +139,229 @@ class Admin {
 		add_settings_field(
 			'wci_messages_field',
 			'Update Message Values',
-			'wci_message_input',
+			[ $this, 'message_input' ],
 			'wci_opts_page',
 			'wci_settings'
 		);
 		add_settings_field(
 			'wci_output_select_field',
 			'Upate Positioning',
-			'wci_page_input',
+			[ $this, 'page_input' ],
 			'wci_opts_page',
 			'wci_settings'
 		);
 	}
 	
-	/*
-	*	Settings Help Text
-	*
-	*	@return void Prints HTML message
-	*/
-	function wci_settings_help_text() {
+	/**
+	 * Settings help text
+	 * @return void
+	 */
+	public function settings_help_text() {
 		// echo "Help Text";
 	}
 	
-	/*
-	*	Messages Input Section - Allow the user to customize the
-	* 	messages displayed throughout the plugin.
-	*
-	*	@return void Prints HTML form
-	*/
-	function form_opts() {
+	/**
+	 * Messages Input Section - Allow the user
+	 * to customize the messages displayed
+	 * throughout the plugin.
+	 *
+	 * @return void Prints HTML form
+	 */
+	public function form_opts() {
 		
 		$opts = get_option( 'wci_opts' );
 		
-		if ( $opts == false ) {
+		if ( false === $opts ) {
 			$opts = [];
 		}
 		
 		$defaults = [
-			'form_title'        => 'Share Your Invoice',
-			'help_message'      => 'Enter an email address to share your invoice.',
-			'button_text'       => 'Share Invoice',
-			'input_placeholder' => 'Enter Email',
+			'form_title'        => __(
+				'Share Your Invoice',
+				''
+			),
+			'help_message'      => __(
+				'Enter an email address to share your invoice.',
+				''
+			),
+			'button_text'       => __(
+				'Share Invoice',
+				''
+			),
+			'input_placeholder' => __(
+				'Enter Email',
+				''
+			),
 		];
 		
 		$opts = wp_parse_args( $opts, $defaults );
-		extract( $opts );
 		
 		?>
 		<div id="wci_form_opts">
-			<label for="wci_opts[form_title]">Form Title</label>
-			<input type="text" name="wci_opts[form_title]" value="<?php echo $form_title ?>" />
+			<label for="wci_opts[form_title]">
+				<?php
+				esc_html_e(
+					'Form Title',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[form_title]"
+				value="<?php echo esc_attr( $opts['form_title'] ); ?>"
+			/>
 
-			<label for="wci_opts[help_message]">Help Message</label>
-			<input type="text" name="wci_opts[help_message]" value="<?php echo $help_message ?>" />
+			<label for="wci_opts[help_message]">
+				<?php
+				esc_html_e(
+					'Help Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[help_message]"
+				value="<?php echo esc_attr( $opts['help_message'] ); ?>"
+			/>
 
-			<label for="wci_opts[button_text]">Button Text</label>
-			<input type="text" name="wci_opts[button_text]" value="<?php echo $button_text ?>" />
+			<label for="wci_opts[button_text]">
+				<?php
+				esc_html_e(
+					'Button Text',
+					'woocom-cc-invoice'
+				)
+				?>
+				
+			</label>
+			<input
+				type="text"
+				name="wci_opts[button_text]"
+				value="<?php echo esc_attr( $opts['button_text'] ); ?>"
+			/>
 
-			<label for="wci_opts[input_placeholder]">Input Placeholder</label>
-			<input type="text" name="wci_opts[input_placeholder]" value="<?php echo $input_placeholder ?>" />
+			<label for="wci_opts[input_placeholder]">
+				<?php
+				esc_html_e(
+					'Input Placeholder',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[input_placeholder]"
+				value="<?php echo esc_attr( $opts['input_placeholder'] ); ?>"
+			/>
 		</div>
 		<?php
 	}
 	
-	/*
-	*	Messages Input Section - Allow the user to customize the messages displayed
-	* 	throughout the plugin.
-	*
-	*	@return void Prints HTML form
-	*/
-	function wci_message_input() {
-		
+	/**
+	 * Messages Input Section - Allow the user to
+	 * customize the messages displayed
+	 * throughout the plugin.
+	 *
+	 * @return void
+	 */
+	public function message_input() {
 		$opts = get_option( 'wci_opts' );
-		
-		if ( $opts == false ) {
+		if ( false === $opts ) {
 			$opts = [];
 		}
-		
 		$defaults = [
-			'success_message' => 'Success! Your invoice has been sent, send another?',
-			'email_message'   => 'Invalid email address, please try again.',
-			'order_message'   => 'Invalid order number, please refresh and try again.',
-			'account_message' => 'Invalid account, please make sure you are logged in and try again.',
-			'default_message' => 'Something went wrong, please refresh the page and try again.',
+			'success_message' => __(
+				'Success! Your invoice has been sent, send another?',
+				'woocom-cc-invoice'
+			),
+			'email_message'   => __(
+				'Invalid email address, please try again.',
+				'woocom-cc-invoice'
+			),
+			'order_message'   => __(
+				'Invalid order number, please refresh and try again.',
+				'woocom-cc-invoice'
+			),
+			'account_message' => __(
+				'Invalid account, please make sure you are logged in and try again
+				', 'woocom-cc-invoi
+				e' ),
+			'default_message' => __(
+				'Something went wrong, please refresh the page and try again.',
+				'woocom-cc-invoice'
+			),
 		];
-		
 		$opts = wp_parse_args( $opts, $defaults );
-		extract( $opts );
-		
 		?>
 		<div id="wci_message_opts">
 
-			<label for="wci_opts[success_message]">Success Message</label>
-			<input type="text" name="wci_opts[success_message]" value="<?php echo $success_message ?>" />
+			<label for="wci_opts[success_message]">
+				<?php
+				esc_html_e(
+					'Success Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[success_message]"
+				value="<?php echo esc_attr( $opts['success_message'] ); ?>"
+			/>
 
-			<label for="wci_opts[email_message]">Invalid Email Message</label>
-			<input type="text" name="wci_opts[email_message]" value="<?php echo $email_message ?>" />
+			<label for="wci_opts[email_message]">
+				<?php
+				esc_html_e(
+					'Invalid Email Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[email_message]"
+				value="<?php echo esc_attr( $opts['email_message'] ); ?>"
+			/>
 
-			<label for="wci_opts[order_message]">Invalid Order Message</label>
-			<input type="text" name="wci_opts[order_message]" value="<?php echo $order_message ?>" />
+			<label for="wci_opts[order_message]">
+				<?php
+				esc_html_e(
+					'Invalid Order Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[order_message]"
+				value="<?php echo esc_attr( $opts['order_message'] ); ?>" />
 
-			<label for="wci_opts[account_message]">Invalid Account Message</label>
-			<input type="text" name="wci_opts[account_message]" value="<?php echo $account_message ?>" />
-
-			<label for="wci_opts[default_message]">Default Error Message</label>
-			<input type="text" name="wci_opts[default_message]" value="<?php echo $default_message ?>" />
+			<label for="wci_opts[account_message]">
+				<?php
+				esc_html_e(
+					'Invalid Account Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[account_message]"
+				value="<?php echo esc_attr( $opts['account_message'] ); ?>"
+			/>
+			<label for="wci_opts[default_message]">
+				<?php
+				esc_html_e(
+					'Default Error Message',
+					'woocom-cc-invoice'
+				)
+				?>
+			</label>
+			<input
+				type="text"
+				name="wci_opts[default_message]"
+				value="<?php echo esc_attr( $opts['default_message'] ); ?>" />
 		</div>
 		<?php
 	}
@@ -240,80 +372,106 @@ class Admin {
 	*
 	*	@return void Prints html form
 	*/
-	function wci_page_input() {
-		
+	public function page_input() {
 		$opts = get_option( 'wci_opts' );
-		
-		if ( $opts == false ) {
+		if ( false === $opts ) {
 			$opts = [];
 		}
-		
 		$defaults = [
 			'order_received'     => 'on',
 			'order_received_top' => 'on',
 			'view_order'         => 'on',
 		];
-		
 		$opts = wp_parse_args( $opts, $defaults );
-		extract( $opts );
-		
 		?>
 
 		<div id="wci_page_opts">
 
 			<div>
-				<input type="checkbox" name="wci_opts[order_received]" <?php if ( $order_received == 'on' )
-					echo 'checked' ?> />
-				<label for="wci_opts[order_received]">Display on Order Received Page</label>
+				<input
+					type="checkbox"
+					name="wci_opts[order_received]"
+					<?php
+					echo 'on' === $opts['order_received'] ? 'checked' : ''
+					?>
+				/>
+				<label for="wci_opts[order_received]">
+					<?php
+					esc_html_e(
+						'Display on Order Received Page',
+						'woocom-cc-invoice'
+					);
+					?>
+				</label>
 			</div>
 
 			<div>
-				<input type="checkbox" name="wci_opts[order_received_top]" <?php if ( $order_received_top == 'on' )
-					echo 'checked' ?> />
-				<label for="wci_opts[order_received_top]">Top of Order Received Page? (Unchecked will display the form at the bottom)</label>
+				<input
+					type="checkbox"
+					name="wci_opts[order_received_top]"
+					<?php
+					echo 'on' === $opts['order_received_top'] ? 'checked' : ''
+					?>
+				/>
+				<label for="wci_opts[order_received_top]">
+					<?php
+					esc_html_e(
+						'Top of Order Received Page? (Unchecked will display the form at the bottom)',
+						'woocom-cc-invoice'
+					);
+					?>
+					
+				</label>
 			</div>
 
 			<div>
-				<input type="checkbox" name="wci_opts[view_order]" <?php if ( $view_order == 'on' )
-					echo 'checked' ?> />
-				<label for="wci_opts[view_order]">Display on View Order Page</label>
+				<input
+					type="checkbox"
+					name="wci_opts[view_order]"
+					<?php
+					echo 'on' === $opts['view_order'] ? 'checked' : ''
+					?>
+				/>
+				<label for="wci_opts[view_order]">
+					<?php
+					esc_html_e(
+						'Display on View Order Page',
+						'woocom-cc-invoice'
+					);
+					?>
+				</label>
 			</div>
 		</div>
 		
 		<?php
 	}
-	
-	/*
-	*	Validation Settings
-	*
-	*	@param	array	$input
-	*	@return	array	$input
-	*/
-	function wci_validate_opts( $input ) {
-		
-		$input[ 'form_title' ]        = strip_tags( $input[ 'form_title' ] );
-		$input[ 'help_message' ]      = strip_tags( $input[ 'help_message' ] );
-		$input[ 'button_text' ]       = strip_tags( $input[ 'button_text' ] );
-		$input[ 'input_placeholder' ] = strip_tags( $input[ 'input_placeholder' ] );
-		$input[ 'success_message' ]   = strip_tags( $input[ 'success_message' ] );
-		$input[ 'email_message' ]     = strip_tags( $input[ 'email_message' ] );
-		$input[ 'order_message' ]     = strip_tags( $input[ 'order_message' ] );
-		$input[ 'account_message' ]   = strip_tags( $input[ 'account_message' ] );
-		$input[ 'default_message' ]   = strip_tags( $input[ 'default_message' ] );
-		
-		if ( ! isset( $input[ 'order_received' ] ) ) {
-			$input[ 'order_received' ] = '';
+
+	/**
+	 * Validation Settings
+	 *
+	 * @param $input
+	 *
+	 * @return mixed
+	 */
+	public function validate_opts( $input ) {
+		$input['form_title']        = strip_tags( $input['form_title'] );
+		$input['help_message']      = strip_tags( $input['help_message'] );
+		$input['button_text']       = strip_tags( $input['button_text'] );
+		$input['input_placeholder'] = strip_tags( $input['input_placeholder'] );
+		$input['success_message']   = strip_tags( $input['success_message'] );
+		$input['email_message']     = strip_tags( $input['email_message'] );
+		$input['order_message']     = strip_tags( $input['order_message'] );
+		$input['account_message']   = strip_tags( $input['account_message'] );
+		$input['default_message']   = strip_tags( $input['default_message'] );
+		if ( ! isset( $input['order_received'] ) ) {
+			$input['order_received'] = '';
 		}
-		
-		if ( ! isset( $input[ 'order_received_top' ] ) ) {
-			$input[ 'order_received_top' ] = '';
+		if ( ! isset( $input['order_received_top'] ) ) {
+			$input['order_received_top'] = '';
 		}
-		
-		if ( ! isset( $input[ 'view_order' ] ) ) {
-			$input[ 'view_order' ] = '';
+		if ( ! isset( $input['view_order'] ) ) {
+			$input['view_order'] = '';
 		}
-		
 		return $input;
 	}
-	
 }
