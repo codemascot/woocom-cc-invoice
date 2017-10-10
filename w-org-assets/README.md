@@ -1,0 +1,1 @@
+# WooCom CC Invoice assets for the wordpress.org repository
