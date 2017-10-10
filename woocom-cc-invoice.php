@@ -3,9 +3,13 @@
 /**
  * Plugin Name: WooCom CC Invoice
  * Description: Helps user to send CC of the invoice to other third party email
- * addresses. Plugin URI:  https://github.com/rnaby Author:      TheDramatist
- * Author URI:  http://rnaby.github.com/ Version:     dev-master License:
- * GPL-2.0 Text Domain: woocom-cc-invoice
+ * 				addresses.
+ * Plugin URI:  https://github.com/rnaby
+ * Author:      TheDramatist
+ * Author URI:  http://rnaby.github.com/
+ * Version:     dev-master
+ * License:		GPL-2.0
+ * Text Domain: woocom-cc-invoice
  */
 
 namespace TheDramatist\WooComCCInvoice;
@@ -16,7 +20,7 @@ namespace TheDramatist\WooComCCInvoice;
  * @return void
  */
 function activate() {
-	
+
 	do_action( 'woocom-cc-invoice_plugin_activate' );
 }
 
@@ -28,7 +32,7 @@ register_activation_hook( __FILE__, __NAMESPACE__ . '\\activate' );
  * @return void
  */
 function deactivate() {
-	
+
 	do_action( 'woocom-cc-invoice_plugin_deactivate' );
 }
 
@@ -41,7 +45,7 @@ register_activation_hook( __FILE__, __NAMESPACE__ . '\\deactivate' );
  * @throws \Throwable
  */
 function initialize() {
-	
+
 	try {
 		/**
 		 * Checking if vendor/autoload.php exists or not.
@@ -50,7 +54,16 @@ function initialize() {
 			/** @noinspection PhpIncludeInspection */
 			require_once __DIR__ . '/vendor/autoload.php';
 		}
-		
+
+		/**
+		 * Loading translations.
+		 */
+		load_plugin_textdomain(
+			'woocom-cc-invoice',
+			true,
+			basename( dirname( __FILE__ ) ) . '/languages'
+		);
+
 		/**
 		 * Calling modules.
 		 */
@@ -63,7 +76,7 @@ function initialize() {
 				'Initialize'    => ( new Initialize\Initialize() )->init(),
 			]
 		);
-		
+
 	}
 	catch ( \Throwable $throwable ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
