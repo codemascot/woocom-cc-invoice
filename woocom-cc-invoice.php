@@ -7,7 +7,7 @@
  * Plugin URI:  https://github.com/rnaby
  * Author:      TheDramatist
  * Author URI:  http://rnaby.github.com/
- * Version:     dev-master
+ * Version:     1.0.0
  * License:		GPL-2.0
  * Text Domain: woocom-cc-invoice
  */
