@@ -1,4 +1,4 @@
-# TheDramatist WooCom CC Invoice
+# WooCom CC Invoice `master`
 
 Helps user to send CC of the invoice to other third party email addresses.
 
@@ -12,11 +12,6 @@ Helps user to send CC of the invoice to other third party email addresses.
 
 ## Installation
 
-The best way to use this package is through Composer:
-
-```BASH
-$ composer require rnaby/woocom-cc-invoice
-```
 
 ## Usage
 
@@ -24,7 +19,7 @@ $ composer require rnaby/woocom-cc-invoice
 
 ## Crafted by Khan M Rashedun-Naby
 
-I'm a professional web developer and I forked this repository form [`inpsyde/boilerplate`](https://github.com/inpsyde/boilerplate) to use for my personal project.
+
 
 ## License
 
