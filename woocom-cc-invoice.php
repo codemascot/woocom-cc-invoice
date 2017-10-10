@@ -53,12 +53,12 @@ function initialize() {
 		/**
 		 * Calling modules.
 		 */
-		
 		return apply_filters(
 			'woocom-cc-invoice_core_modules',
 			[
 				'AssetsEnqueue' => ( new Assets\AssetsEnqueue() )->init(),
 				'EmailInit' => ( new Email\Initialize() )->init(),
+				'Admin' => ( new Admin\Admin() )->init(),
 			]
 		);
 
