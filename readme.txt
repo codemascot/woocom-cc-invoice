@@ -11,12 +11,11 @@ License URI: https://www.gnu.org/licenses/gpl.txt
 Helps user to send CC of the invoice to other third party email
 
 == Description ==
-This plugin provides the opportunity to the buyers to send the invoice to other third party email address.
+This is a WordPress plugin and WooCommerce add on. This plugin provides the opportunity to the buyers to send the invoice to other third party email address.
 
 == Installation ==
 1. Upload the plugin to `wp-content/plugins` directory
-2. Go to the plugins dashboard at backend to activate the plugin.
-3. After activation you\'ll find the widget at your widget area dashboard.
+2. Go to the plugins dashboard at backend to activate this **WooCom CC Invoice** plugin.
 
 = Requirements =
 * WordPress 4.0
