@@ -91,9 +91,9 @@ class Initialize {
 			$this->input_form();
 			// Display on bottom of Order Received Page
 		} elseif (
-			is_page( 'checkout' )
-			and 'on' === $opts['order_received']
-			    and 'on' !== $opts['order_received_top']
+			is_page( 'checkout' ) &&
+			'on' === $opts['order_received'] &&
+			'on' !== $opts['order_received_top']
 		) {
 			$this->input_form();
 		}
