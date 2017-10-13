@@ -147,7 +147,7 @@ class Initialize {
 	 * @return array
 	 *
 	 */
-	function cc_invoive_nopriv() {
+	public function cc_invoive_nopriv() {
 		$result['type'] = 'invalid_account';
 		// Send results back
 		$result_json = wp_json_encode( $result );
