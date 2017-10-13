@@ -1,4 +1,4 @@
-# WooCom CC Invoice `master`
+# WooCom CC Invoice `1.0.0`
 
 Helps user to send CC of the invoice to other third party email addresses.
 

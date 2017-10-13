@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPL
 License URI: https://www.gnu.org/licenses/gpl.txt
 
-Helps user to send CC of the invoice to other third party email
+Helps user to send CC of the invoice to other third party email.
 
 == Description ==
 This is a WordPress plugin and WooCommerce add on. This plugin provides the opportunity to the buyers to send the invoice to other third party email address.
@@ -22,10 +22,10 @@ This is a WordPress plugin and WooCommerce add on. This plugin provides the oppo
 * PHP >= 5.6
 * WooCommerce >= 2.0.0
 
-I'm thinking about adding some hooks to this plugin. If you have any idea please share through the forum.
+> I'm thinking about adding some hooks to this plugin. If you have any idea please share through the forum.
 
 == Changelog ==
 
-= Version 1.0.0 =
+= Version 1.0.0 [2017-10-14] =
 
 * Initial release
