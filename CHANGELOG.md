@@ -2,10 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-(This document follows the strucutre described in http://keepachangelog.com/)
-
 ## [Unreleased]
-### Added
+##### Added
 - Some action and filter hooks.
 - A minor refactoring. 
 
