@@ -77,8 +77,7 @@ function initialize() {
 			]
 		);
 
-	}
-	catch ( \Throwable $throwable ) {
+	} catch ( \Throwable $throwable ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			throw $throwable;
 		}
