@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Some action and filter hooks.
+- A minor refactoring. 
+
+
+##### Version 1.0.0 [2017-10-14]
+- Initial release.
 
 
 [Unreleased]: http://github.com/VENDOR/PROJECT/compare/

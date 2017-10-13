@@ -14,7 +14,6 @@ class InitEmail {
 	}
 	
 	public function init() {
-		
 		add_filter(
 			'woocommerce_email_classes',
 			[ $this, 'instantiate_email' ]
@@ -31,11 +30,9 @@ class InitEmail {
 	 * @return mixed
 	 */
 	public function instantiate_email( $email_classes ) {
-		
 		// add the email class to the list of email
 		// classes that WooCommerce loads
-		$email_classes[ 'WooCom_CC_Invoice' ] = new Email();
-		
+		$email_classes['WooCom_CC_Invoice'] = new Email();
 		return $email_classes;
 	}
 }

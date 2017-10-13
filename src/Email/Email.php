@@ -16,7 +16,6 @@ class Email extends WC_Email {
 	 * Constructor
 	 */
 	public function __construct() {
-		
 		$this->id          = 'customer_invoice';
 		$this->title       = __( 'Customer invoice', 'woocom-cc-invoice' );
 		$this->description = __(
@@ -24,20 +23,16 @@ class Email extends WC_Email {
 			to the user containing order info and payment links.',
 			'woocom-cc-invoice'
 		);
-		
 		$this->template_html  = 'emails/customer-invoice.php';
 		$this->template_plain = 'emails/plain/customer-invoice.php';
-		
 		$this->subject = __(
 			'Invoice for order {order_number} from {order_date}',
 			'woocom-cc-invoice'
 		);
-		
 		$this->heading = __(
 			'Invoice for order {order_number}',
 			'woocom-cc-invoice'
 		);
-		
 		$this->subject_paid = __(
 			'Your {site_title} order from {order_date}',
 			'woocom-cc-invoice'
@@ -46,15 +41,12 @@ class Email extends WC_Email {
 			'Order {order_number} details',
 			'woocom-cc-invoice'
 		);
-		
 		// Call parent constructor
 		parent::__construct();
-		
 		$this->heading_paid = $this->get_option(
 			'heading_paid',
 			$this->heading_paid
 		);
-		
 		$this->subject_paid = $this->get_option(
 			'subject_paid',
 			$this->subject_paid
@@ -72,29 +64,23 @@ class Email extends WC_Email {
 	 * @return void
 	 */
 	public function trigger( $order, $email ) {
-		
 		if ( ! is_object( $order ) ) {
 			$order = new WC_Order( absint( $order ) );
 		}
-		
 		if ( $order ) {
 			$this->object    = $order;
 			$this->recipient = $this->object->billing_email;
-			
-			$this->find[]    = '{order_date}';
+				$this->find[]    = '{order_date}';
 			$this->replace[] = date_i18n(
 				wc_date_format(),
 				strtotime( $this->object->order_date )
 			);
-			
-			$this->find[]    = '{order_number}';
+				$this->find[]    = '{order_number}';
 			$this->replace[] = $this->object->get_order_number();
 		}
-		
 		if ( ! $this->get_recipient() ) {
 			return;
 		}
-		
 		$this->send(
 			$email,
 			$this->get_subject(),
@@ -111,7 +97,6 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_subject() {
-		
 		if (
 			'processing' === $this->object->status
 			|| 'completed' === $this->object->status
@@ -135,7 +120,6 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_content_html() {
-		
 		ob_start();
 		wc_get_template( $this->template_html, [
 			'order'         => $this->object,
@@ -143,7 +127,6 @@ class Email extends WC_Email {
 			'sent_to_admin' => false,
 			'plain_text'    => false,
 		] );
-		
 		return ob_get_clean();
 	}
 	
@@ -154,7 +137,6 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_heading() {
-		
 		if (
 			'processing' === $this->object->status
 			|| 'completed' == $this->object->status
@@ -180,7 +162,6 @@ class Email extends WC_Email {
 	 * @return string
 	 */
 	public function get_content_plain() {
-		
 		ob_start();
 		wc_get_template( $this->template_plain, [
 			'order'         => $this->object,
@@ -188,7 +169,6 @@ class Email extends WC_Email {
 			'sent_to_admin' => false,
 			'plain_text'    => true,
 		] );
-		
 		return ob_get_clean();
 	}
 	
@@ -199,7 +179,6 @@ class Email extends WC_Email {
 	 * @return void
 	 */
 	public function init_form_fields() {
-		
 		$this->form_fields = [
 			'subject'      => [
 				'title'       => __( 'Email subject', 'woocom-cc-invoice' ),
